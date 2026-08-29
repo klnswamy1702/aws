@@ -1,0 +1,26 @@
+# AWS
+.aws/
+*.pem
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!example.tfvars
+
+# Environment / secrets
+.env
+.env.*
+*.secret
+
+# SSH
+id_rsa
+id_rsa.pub
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
