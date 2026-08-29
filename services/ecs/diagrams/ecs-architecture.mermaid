@@ -1,0 +1,39 @@
+graph TD
+    User((User))
+    Route53[Route 53]
+    ALB[Application Load Balancer]
+    
+    subgraph VPC [VPC 10.0.0.0/16]
+        subgraph Public_Subnets [Public Subnets]
+            NAT[NAT Gateway]
+            ALB
+        end
+        
+        subgraph Private_Subnets [Private Subnets]
+            subgraph ECS_Cluster [ECS Cluster]
+                Service[ECS Service / Scheduler]
+                Task1[Task: Fargate IP: 10.0.1.15]
+                Task2[Task: Fargate IP: 10.0.2.40]
+            end
+        end
+    end
+    
+    ECR[Amazon ECR]
+    CloudWatch[CloudWatch Logs]
+
+    User -->|HTTPS| Route53
+    Route53 -->|Alias Record| ALB
+    ALB -->|Target Group Routing| Task1
+    ALB -->|Target Group Routing| Task2
+    
+    Service -->|Manages| Task1
+    Service -->|Manages| Task2
+    
+    Task1 -->|Pulls Image via NAT| ECR
+    Task2 -->|Pulls Image via NAT| ECR
+    
+    Task1 -->|Sends Logs via NAT| CloudWatch
+    Task2 -->|Sends Logs via NAT| CloudWatch
+
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:white;
+    class ALB,ECS_Cluster,Task1,Task2,ECR aws;

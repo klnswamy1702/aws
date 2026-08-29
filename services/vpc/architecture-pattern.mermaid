@@ -1,0 +1,22 @@
+```mermaid
+graph TD
+    User((User)) --> IGW[Internet Gateway]
+    IGW --> ALB[Application Load Balancer]
+    ALB --> ASG_Web[Web Auto Scaling Group\nPrivate Subnet]
+    ASG_Web --> ASG_App[App Auto Scaling Group\nPrivate Subnet]
+    ASG_App --> RDS[(RDS Database\nData Subnet)]
+    
+    subgraph VPC [VPC 10.0.0.0/16]
+        subgraph Public_AZ1 [Public Subnet AZ-A]
+            IGW
+            ALB
+        end
+        subgraph Private_AZ1 [Private Subnet AZ-A]
+            ASG_Web
+            ASG_App
+        end
+        subgraph Data_AZ1 [Data Subnet AZ-A]
+            RDS
+        end
+    end
+```

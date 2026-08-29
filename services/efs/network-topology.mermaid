@@ -1,0 +1,19 @@
+```mermaid
+graph LR
+    subgraph Region
+        subgraph AZ_A [Availability Zone A]
+            EC2_A[EC2 Instance A]
+            MT_A[EFS Mount Target A\nIP: 10.0.1.50]
+            EC2_A -->|TCP 2049| MT_A
+        end
+        
+        subgraph AZ_B [Availability Zone B]
+            EC2_B[EC2 Instance B]
+            MT_B[EFS Mount Target B\nIP: 10.0.2.50]
+            EC2_B -->|TCP 2049| MT_B
+        end
+        
+        MT_A --- EFS_Core[(EFS Managed Storage Core)]
+        MT_B --- EFS_Core
+    end
+```

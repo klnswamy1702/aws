@@ -1,0 +1,10 @@
+sequenceDiagram
+    participant App as Application
+    participant SM as Secrets Manager
+    participant KMS as AWS KMS
+    
+    App->>SM: GetSecretValue (SecretId)
+    SM->>KMS: Decrypt (Encrypted Secret Payload)
+    KMS-->>SM: Plaintext Secret Payload
+    SM-->>App: Return Secret JSON
+    Note over App: App caches secret in memory for 1 hour

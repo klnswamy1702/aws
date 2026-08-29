@@ -1,0 +1,9 @@
+stateDiagram-v2
+    [*] --> ApplicationStop
+    ApplicationStop --> DownloadBundle
+    DownloadBundle --> BeforeInstall
+    BeforeInstall --> Install
+    Install --> AfterInstall
+    AfterInstall --> ApplicationStart
+    ApplicationStart --> ValidateService
+    ValidateService --> [*]

@@ -1,0 +1,23 @@
+```mermaid
+graph LR
+    subgraph Transit_Gateway [AWS Transit Gateway]
+        TGW((TGW))
+    end
+    
+    subgraph Prod_VPC [Production VPC]
+        Prod_EC2[Prod Instances]
+    end
+    
+    subgraph Dev_VPC [Development VPC]
+        Dev_EC2[Dev Instances]
+    end
+    
+    subgraph Shared_VPC [Shared Services VPC]
+        AD[Active Directory]
+        Jenkins[Jenkins CI/CD]
+    end
+    
+    Prod_VPC <-->|TGW Attachment| Transit_Gateway
+    Dev_VPC <-->|TGW Attachment| Transit_Gateway
+    Shared_VPC <-->|TGW Attachment| Transit_Gateway
+```

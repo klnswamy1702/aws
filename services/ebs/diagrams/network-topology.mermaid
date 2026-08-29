@@ -1,0 +1,9 @@
+```mermaid
+graph TD
+    subgraph AZ1
+        EC2(EC2) --- EBS[(EBS)]
+    end
+    subgraph AZ2
+        EC2_2(EC2) -.-|Cannot attach directly| EBS
+    end
+```

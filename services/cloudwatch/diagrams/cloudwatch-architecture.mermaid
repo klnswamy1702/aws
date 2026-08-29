@@ -1,0 +1,14 @@
+graph TD
+    subagent[Application Logs] -->|CloudWatch Agent| loggroup[Log Group]
+    hypervisor[EC2 Hypervisor] -->|Default Metrics| metrics[Metrics Namespace]
+    custom[Custom Apps] -->|PutMetricData API| metrics
+    
+    loggroup -->|Metric Filter| metrics
+    loggroup -->|Logs Insights| analytics[SRE Analysis]
+    
+    metrics --> alarm[CloudWatch Alarm]
+    alarm -->|State: ALARM| sns[SNS Topic]
+    alarm -->|Auto Scaling| asg[Auto Scaling Group]
+    
+    sns --> email[Email Notification]
+    sns --> lambda[Lambda Remediation]

@@ -1,0 +1,18 @@
+graph TD
+    subgraph "Networking Account"
+        tgw[Transit Gateway]
+    end
+    
+    subgraph "Prod Account A"
+        vpc_a[VPC A]
+    end
+    
+    subgraph "Dev Account B"
+        vpc_b[VPC B]
+    end
+    
+    org_ram[AWS RAM Organization Share] -.-> tgw
+    tgw --- vpc_a
+    tgw --- vpc_b
+    
+    note[RAM allows sharing TGW across entire Organization automatically]

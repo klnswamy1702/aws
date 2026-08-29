@@ -1,0 +1,9 @@
+```mermaid
+graph TD
+    EC2[EC2 Instance] -->|Attach| EBS_gp3[gp3 Root Volume]
+    EC2 -->|Attach| EBS_io2[io2 Data Volume]
+    
+    EBS_io2 -->|DLM Backup Schedule| S3[S3 Snapshot Storage]
+    
+    S3 -->|Fast Snapshot Restore| EBS_New[New EC2 Volume]
+```

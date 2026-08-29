@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User as Admin
+    participant SSM as SSM Run Command
+    participant Agent as SSM Agent (on EC2)
+    participant S3 as S3 Bucket (Output)
+    
+    User->>SSM: SendCommand (Document: AWS-RunShellScript)
+    SSM->>Agent: Deliver Command Payload
+    Note over Agent: Executes shell script
+    Agent-->>SSM: Report Status (Success/Fail)
+    Agent->>S3: Upload stdout and stderr logs
+    SSM-->>User: Command execution details

@@ -1,0 +1,8 @@
+```mermaid
+graph TD
+    EC2[EC2 Instance]
+    EBS1[(gp3 Volume)]
+    EBS2[(io2 Block Express)]
+    EC2 -->|EBS Optimized Network| EBS1
+    EC2 -->|SRD Protocol| EBS2
+```

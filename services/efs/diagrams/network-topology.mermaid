@@ -1,0 +1,7 @@
+```mermaid
+graph TD
+    EC2_A[EC2 in AZ A] -->|SG Allow 2049| MT_A(EFS Mount Target AZ A)
+    EC2_B[EC2 in AZ B] -->|SG Allow 2049| MT_B(EFS Mount Target AZ B)
+    MT_A --> EFS[(Shared EFS)]
+    MT_B --> EFS
+```

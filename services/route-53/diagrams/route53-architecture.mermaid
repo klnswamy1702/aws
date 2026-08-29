@@ -1,0 +1,34 @@
+graph TD
+    Client((Client))
+    
+    subgraph Route53_Service [Amazon Route 53]
+        Zone[Hosted Zone: app.example.com]
+        PrimaryRecord[Primary Record A: active.app.example.com]
+        SecondaryRecord[Secondary Record A: passive.app.example.com]
+        HC[Route 53 Health Check]
+    end
+    
+    subgraph AWS_Region_1 [Primary Region: us-east-1]
+        ALB1[Application Load Balancer]
+        EC2_1[EC2 Fleet]
+        ALB1 --> EC2_1
+    end
+    
+    subgraph AWS_Region_2 [Secondary Region: us-west-2]
+        ALB2[Application Load Balancer]
+        EC2_2[EC2 Fleet - Scaled Down]
+        ALB2 --> EC2_2
+    end
+    
+    Client -->|DNS Query| Zone
+    Zone -->|Routing Policy: Failover| PrimaryRecord
+    PrimaryRecord -.->|Alias Target| ALB1
+    
+    HC -.->|Polls /health| ALB1
+    PrimaryRecord -.->|Evaluates Health| HC
+    
+    Zone -.->|If Primary Unhealthy| SecondaryRecord
+    SecondaryRecord -.->|Alias Target| ALB2
+
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:white;
+    class Zone,PrimaryRecord,SecondaryRecord,HC aws;

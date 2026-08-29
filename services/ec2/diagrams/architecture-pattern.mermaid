@@ -1,0 +1,14 @@
+graph TD
+    user[Client] --> alb[Application Load Balancer]
+    alb --> asg[Auto Scaling Group]
+    
+    subgraph "Availability Zone A"
+        asg --> ec2_a[EC2 Instance - App A]
+    end
+    
+    subgraph "Availability Zone B"
+        asg --> ec2_b[EC2 Instance - App B]
+    end
+    
+    ec2_a --> rds[(RDS Multi-AZ)]
+    ec2_b --> rds

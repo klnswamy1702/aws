@@ -1,0 +1,12 @@
+flowchart TD
+    Mgmt[Management Account] -->|Consolidated Billing| Sub1[Dev Account]
+    Mgmt -->|Consolidated Billing| Sub2[Prod Account]
+    Sub1 --> EC2[EC2 Instances]
+    Sub2 --> RDS[RDS Databases]
+    
+    EC2 -.->|Generates Cost Data| CUR[Cost & Usage Report]
+    RDS -.->|Generates Cost Data| CUR
+    CUR --> S3[(S3 Data Lake)]
+    S3 --> Glue[AWS Glue Data Catalog]
+    Glue --> Athena[Amazon Athena]
+    Athena --> QS[Amazon QuickSight Dashboards]

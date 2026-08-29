@@ -1,0 +1,16 @@
+```mermaid
+graph TD
+    User((User)) -->|HTTPS| CF[CloudFront Edge Location]
+    
+    CF -->|Cache Hit| User
+    
+    CF -->|Cache Miss: /api/*| ALB[Application Load Balancer]
+    CF -->|Cache Miss: /*| S3[Amazon S3 Bucket]
+    
+    ALB --> EC2[EC2 Backend]
+    
+    subgraph Security
+        WAF[AWS WAF] -.->|Inspects| CF
+        OAC[Origin Access Control] -.->|Secures| S3
+    end
+```

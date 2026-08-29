@@ -1,0 +1,32 @@
+graph TD
+    Developer((Developer))
+    CodeCommit[AWS CodeCommit]
+    CodeBuild[AWS CodeBuild]
+    CodePipeline[AWS CodePipeline]
+    
+    subgraph ECR_Central [Central Security & Registry Account]
+        ECR[Amazon ECR Registry]
+        Inspector[Amazon Inspector Image Scanning]
+        EventBridge[EventBridge]
+        SecurityHub[Security Hub]
+    end
+    
+    subgraph ECS_Prod [Production Account]
+        ECS_Cluster[ECS Cluster]
+        Fargate[AWS Fargate Tasks]
+    end
+
+    Developer -->|Push Code| CodeCommit
+    CodeCommit -->|Triggers| CodePipeline
+    CodePipeline -->|Builds Image| CodeBuild
+    CodeBuild -->|docker push| ECR
+    
+    ECR -->|Triggers Scan on Push| Inspector
+    Inspector -->|Findings| EventBridge
+    EventBridge -->|Routes Alerts| SecurityHub
+    
+    ECS_Cluster -->|Pulls Image| ECR
+    ECS_Cluster -->|Runs on| Fargate
+    
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:white;
+    class ECR,Inspector,ECS_Cluster,Fargate,CodeBuild aws;

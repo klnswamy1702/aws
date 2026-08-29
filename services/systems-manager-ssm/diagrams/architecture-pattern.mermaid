@@ -1,0 +1,12 @@
+graph TD
+    user[DevOps Engineer] -->|AWS Console/CLI| ssm_api[SSM Service API]
+    
+    ssm_api -->|Session Manager| ec2_private[Private EC2 Instance]
+    ssm_api -->|Run Command| ec2_private
+    ssm_api -->|Patch Manager| ec2_private
+    
+    ec2_private -->|Agent Heartbeat| ssm_api
+    ec2_private -->|Session Logs| s3[S3 Audit Bucket]
+    ec2_private -->|Session Logs| cw_logs[CloudWatch Logs]
+    
+    ec2_private -.->|Requires| ssm_role[IAM Instance Profile]

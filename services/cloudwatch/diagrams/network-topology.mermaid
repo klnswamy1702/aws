@@ -1,0 +1,17 @@
+graph LR
+    subgraph "VPC Private Subnet"
+        ec2[EC2 Instance]
+        ecs[ECS Tasks]
+    end
+    
+    vpce_logs[Interface Endpoint: com.amazonaws.region.logs]
+    vpce_metrics[Interface Endpoint: com.amazonaws.region.monitoring]
+    
+    ec2 --> vpce_logs
+    ec2 --> vpce_metrics
+    ecs --> vpce_logs
+    
+    vpce_logs --> cw_logs[CloudWatch Logs Service]
+    vpce_metrics --> cw_metrics[CloudWatch Metrics Service]
+    
+    note[Traffic stays on AWS global network without NAT/IGW] -.-> vpce_logs

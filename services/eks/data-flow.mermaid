@@ -1,0 +1,25 @@
+```mermaid
+flowchart TD
+    User([User / Client])
+    R53[Route 53]
+    ALB[Application Load Balancer]
+    IGW[Internet Gateway]
+    
+    subgraph EKS Data Plane
+        Ingress[ALB Ingress Controller]
+        Service[Kubernetes Service]
+        Pod1[App Pod 1]
+        Pod2[App Pod 2]
+    end
+    
+    User -->|DNS Query| R53
+    R53 -->|IP Address| User
+    User -->|HTTPS| IGW
+    IGW --> ALB
+    
+    ALB -->|Target Group Routing| Pod1
+    ALB -->|Target Group Routing| Pod2
+    
+    Pod1 -->|Data Read/Write| RDS[(Amazon RDS)]
+    Pod2 -->|Assume IRSA Role| DynamoDB[(DynamoDB)]
+```

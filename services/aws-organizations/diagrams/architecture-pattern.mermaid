@@ -1,0 +1,18 @@
+graph TD
+    mgmt[Management Account] -->|Billing & SCPs| root[Root]
+    
+    root --> sec_ou[Security OU]
+    root --> infra_ou[Infrastructure OU]
+    root --> work_ou[Workloads OU]
+    
+    sec_ou --> log_acc[Log Archive Account]
+    sec_ou --> tool_acc[Security Tooling Account]
+    
+    infra_ou --> net_acc[Networking Account: TGW]
+    infra_ou --> shared_acc[Shared Services: CI/CD]
+    
+    work_ou --> prod_ou[Prod OU]
+    work_ou --> dev_ou[Dev OU]
+    
+    prod_ou --> app1_prod[App 1 Prod]
+    dev_ou --> app1_dev[App 1 Dev]

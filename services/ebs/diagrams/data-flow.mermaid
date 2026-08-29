@@ -1,0 +1,7 @@
+```mermaid
+flowchart LR
+    App -->|Write| FileSystem
+    FileSystem -->|Block IO| EBS[(EBS Volume)]
+    EBS -.->|Async Backup| Snap[EBS Snapshot]
+    Snap --> S3[(Amazon S3)]
+```

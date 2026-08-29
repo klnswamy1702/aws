@@ -1,0 +1,15 @@
+```mermaid
+graph TD
+    subgraph VPC
+        EFS[EFS File System]
+        AP1[Access Point: App 1\n/app1 UID:1001]
+        AP2[Access Point: App 2\n/app2 UID:1002]
+        
+        EFS --- AP1
+        EFS --- AP2
+        
+        EC2[EC2 Instance] -->|Mount Root /| EFS
+        EKS_Pod[EKS Pod App1] -->|Mount via AP1| AP1
+        Lambda[AWS Lambda App2] -->|Mount via AP2| AP2
+    end
+```

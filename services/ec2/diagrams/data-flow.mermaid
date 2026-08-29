@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant User as User/Browser
+    participant ALB as Application Load Balancer
+    participant EC2 as EC2 Instance
+    participant S3 as Amazon S3
+    
+    User->>ALB: HTTP GET Request
+    ALB->>EC2: Route Request (Round Robin)
+    EC2->>S3: Fetch Static Asset (IAM Role)
+    S3-->>EC2: Return Asset
+    EC2-->>ALB: HTTP Response
+    ALB-->>User: 200 OK Response

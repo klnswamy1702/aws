@@ -1,0 +1,16 @@
+sequenceDiagram
+    participant User as FinOps Engineer
+    participant Console as Billing Console
+    participant CE as Cost Explorer
+    participant Anomaly as Anomaly Detection
+    participant SNS as Amazon SNS
+    
+    User->>Console: Enable Cost Allocation Tags
+    Console->>CE: Propagate Tags (24h delay)
+    CE->>Anomaly: Feed Cost Data
+    Anomaly->>Anomaly: Analyze via ML Model
+    alt Spike Detected
+        Anomaly->>SNS: Trigger Alert (JSON)
+        SNS->>User: Email/Slack Notification
+    end
+    User->>CE: Investigate Root Cause

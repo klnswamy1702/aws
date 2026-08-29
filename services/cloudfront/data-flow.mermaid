@@ -1,0 +1,25 @@
+```mermaid
+sequenceDiagram
+    participant Client
+    participant CF_Edge as Edge Location (CF Function)
+    participant CF_Regional as Regional Edge Cache
+    participant Origin as S3 / ALB
+    
+    Client->>CF_Edge: GET /logo.png
+    Note over CF_Edge: CF Function executes (e.g. normalize URL)
+    
+    alt In Edge Cache
+        CF_Edge-->>Client: 200 OK (From Cache)
+    else Not In Edge Cache
+        CF_Edge->>CF_Regional: Request /logo.png
+        alt In Regional Cache
+            CF_Regional-->>CF_Edge: 200 OK (From Cache)
+        else Not In Regional Cache
+            CF_Regional->>Origin: Request /logo.png (OAC applied)
+            Origin-->>CF_Regional: 200 OK
+            Note over CF_Regional: Store in Regional Cache
+        end
+        Note over CF_Edge: Store in Edge Cache
+        CF_Edge-->>Client: 200 OK
+    end
+```

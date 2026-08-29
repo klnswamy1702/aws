@@ -1,0 +1,32 @@
+```mermaid
+graph TD
+    subgraph AWS Cloud
+        subgraph Region
+            subgraph VPC [VPC - 10.0.0.0/16]
+                IGW(Internet Gateway) --> NAT1
+                IGW --> NAT2
+                
+                subgraph AZ1 [Availability Zone 1]
+                    Pub1[Public Subnet - 10.0.1.0/24<br/>ALB, NAT Gateway]
+                    Priv1[Private Subnet - 10.0.3.0/24<br/>EKS Worker Nodes]
+                    DB1[DB Subnet - 10.0.5.0/24<br/>RDS Primary]
+                    Pub1 --> NAT1(NAT Gateway)
+                    Priv1 --> Pub1
+                end
+                
+                subgraph AZ2 [Availability Zone 2]
+                    Pub2[Public Subnet - 10.0.2.0/24<br/>ALB, NAT Gateway]
+                    Priv2[Private Subnet - 10.0.4.0/24<br/>EKS Worker Nodes]
+                    DB2[DB Subnet - 10.0.6.0/24<br/>RDS Standby]
+                    Pub2 --> NAT2(NAT Gateway)
+                    Priv2 --> Pub2
+                end
+                
+                %% Control Plane
+                EKS_CP((EKS Control Plane<br/>AWS Managed VPC))
+                EKS_CP <==>|Cross-Account ENI| Priv1
+                EKS_CP <==>|Cross-Account ENI| Priv2
+            end
+        end
+    end
+```

@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant Dev as Developer
+    participant AppAcc as Member Account (App)
+    participant SCP as Service Control Policy
+    participant Service as AWS Service (DynamoDB)
+    participant CloudTrail as Organization CloudTrail
+    participant LogAcc as Log Archive Account
+    
+    Dev->>AppAcc: API Call (Create Table)
+    AppAcc->>SCP: Evaluate Policy
+    SCP-->>AppAcc: Allow (No explicit deny)
+    AppAcc->>Service: Execute Action
+    Service-->>AppAcc: Success
+    Service->>CloudTrail: Log Event
+    CloudTrail->>LogAcc: Store securely in Central S3

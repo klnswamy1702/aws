@@ -1,0 +1,18 @@
+sequenceDiagram
+    participant U as User
+    participant CFF as CloudFront Function (Viewer Req)
+    participant CF as CloudFront Cache
+    participant LE as Lambda@Edge (Origin Req)
+    participant O as Origin (S3/ALB)
+    
+    U->>CFF: HTTP Request
+    CFF->>CFF: Normalize URL/Headers
+    CFF->>CF: Forward Request
+    CF->>CF: Check Cache
+    alt Cache Miss
+        CF->>LE: Trigger Origin Request
+        LE->>O: Forward Request
+        O->>CF: Response
+        CF->>CF: Cache Response
+    end
+    CF->>U: HTTP Response

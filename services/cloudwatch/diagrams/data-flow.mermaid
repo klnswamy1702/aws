@@ -1,0 +1,15 @@
+sequenceDiagram
+    participant EC2 as EC2 (CloudWatch Agent)
+    participant CW as CloudWatch API
+    participant Alarm as CloudWatch Alarm
+    participant SNS as SNS Topic
+    participant User as On-Call Engineer
+    
+    loop Every 1 Minute
+        EC2->>CW: PutMetricData (MemoryUtilization)
+    end
+    
+    CW->>Alarm: Evaluate threshold (>80%)
+    Alarm-->>Alarm: State change (OK -> ALARM)
+    Alarm->>SNS: Trigger Action
+    SNS->>User: Send SMS/Email Alert

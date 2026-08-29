@@ -1,0 +1,22 @@
+graph LR
+    subgraph "Private Subnet (No NAT)"
+        ec2[EC2 Instance]
+        ssm_agent[SSM Agent]
+        ec2 --- ssm_agent
+    end
+    
+    subgraph "VPC Endpoints (PrivateLink)"
+        vpce_ssm[com.amazonaws.region.ssm]
+        vpce_ssmm[com.amazonaws.region.ssmmessages]
+        vpce_ec2[com.amazonaws.region.ec2messages]
+    end
+    
+    ssm_agent --> vpce_ssm
+    ssm_agent --> vpce_ssmm
+    ssm_agent --> vpce_ec2
+    
+    vpce_ssm --> aws_ssm[AWS Systems Manager Control Plane]
+    vpce_ssmm --> aws_ssm
+    vpce_ec2 --> aws_ssm
+    
+    note[No Internet Gateway or NAT Required] -.-> vpce_ssm

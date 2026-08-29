@@ -1,0 +1,14 @@
+graph LR
+    subgraph AWS Organizations
+        Mgmt[Management Account / FinOps]
+        subgraph OUs
+            OU1[Prod OU]
+            OU2[Dev OU]
+        end
+        Mgmt -->|Applies SCPs| OU1
+        Mgmt -->|Applies SCPs| OU2
+    end
+    
+    Mgmt -->|Buys| SP[Compute Savings Plan]
+    SP -.->|Applies Discount| OU1
+    SP -.->|Applies Discount| OU2

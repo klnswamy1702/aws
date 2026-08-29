@@ -1,0 +1,16 @@
+graph TD
+    developer[Developer] -->|git push| git[Git Repository]
+    git --> pipeline[CI/CD Pipeline]
+    
+    pipeline -->|cfn-lint| lint[Linter]
+    lint -->|Create Change Set| changeset[CFN Change Set]
+    
+    changeset -->|Review| manual[Manual Approval]
+    manual -->|Execute| stack[CloudFormation Stack]
+    
+    stack -->|Creates| vpc[VPC]
+    stack -->|Creates| ec2[EC2 Instance]
+    stack -->|Creates| rds[RDS Database]
+    
+    drift[Manual Console Change] -.->|Drifts| ec2
+    stack -->|Detect Drift| alert[Drift Alert]

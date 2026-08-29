@@ -1,0 +1,37 @@
+graph LR
+    SQS[Amazon SQS Queue]
+    EventBridge[EventBridge Rule]
+    
+    subgraph ECS_Cluster [ECS Cluster]
+        subgraph Fargate_Capacity [Fargate Capacity Providers]
+            OnDemand[Fargate On-Demand Base=1]
+            Spot[Fargate Spot Weight=3]
+        end
+        
+        Task_OD[Background Worker Task]
+        Task_Spot1[Background Worker Task]
+        Task_Spot2[Background Worker Task]
+        Task_Spot3[Background Worker Task]
+    end
+    
+    DynamoDB[(DynamoDB Table)]
+
+    SQS -->|Messages| Task_OD
+    SQS -->|Messages| Task_Spot1
+    SQS -->|Messages| Task_Spot2
+    SQS -->|Messages| Task_Spot3
+    
+    Task_OD -.-> OnDemand
+    Task_Spot1 -.-> Spot
+    Task_Spot2 -.-> Spot
+    Task_Spot3 -.-> Spot
+    
+    Task_OD -->|Reads/Writes| DynamoDB
+    Task_Spot1 -->|Reads/Writes| DynamoDB
+    Task_Spot2 -->|Reads/Writes| DynamoDB
+    Task_Spot3 -->|Reads/Writes| DynamoDB
+    
+    EventBridge -->|2-min Interruption Notice| Task_Spot1
+
+    classDef aws fill:#FF9900,stroke:#232F3E,stroke-width:2px,color:white;
+    class OnDemand,Spot,Task_OD,Task_Spot1,Task_Spot2,Task_Spot3 aws;

@@ -1,0 +1,6 @@
+```mermaid
+flowchart LR
+    App[Application] -->|NFSv4.1| TLS[TLS Tunnel / EFS Helper]
+    TLS -->|TCP 2049| MT[Mount Target]
+    MT --> EFS[(EFS Volume)]
+```

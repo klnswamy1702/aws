@@ -1,0 +1,10 @@
+graph TD
+    app[Application / ECS Task] -->|1. GetSecretValue| sm[Secrets Manager]
+    sm -->|2. Returns current DB Password| app
+    app -->|3. Connect with Password| rds[(Amazon RDS)]
+    
+    subgraph "Automatic Rotation (Every 30 Days)"
+        sm -.->|Triggers| lambda[Rotation Lambda Function]
+        lambda -.->|Generate & Set new Password| rds
+        lambda -.->|Update AWSCURRENT| sm
+    end

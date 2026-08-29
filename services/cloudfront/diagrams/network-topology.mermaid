@@ -1,0 +1,13 @@
+graph LR
+    subgraph Edge
+        CF[CloudFront]
+        CFF[CF Functions]
+    end
+    subgraph Region
+        ALB[ALB]
+        S3[S3 Bucket]
+        L[Lambda]
+    end
+    CF --> ALB
+    CF --> S3
+    CF --> L

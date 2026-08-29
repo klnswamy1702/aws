@@ -1,0 +1,9 @@
+---
+service: IAM
+---
+```mermaid
+graph LR
+    Client-->|Request|AWS_Service
+    AWS_Service-->|Assume Role|STS
+    STS-->|Temp Credentials|Client
+```

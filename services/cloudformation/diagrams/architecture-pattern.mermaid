@@ -1,0 +1,10 @@
+graph TD
+    developer[Developer/Pipeline] -->|Deploy StackSet| master[Organizations Mgmt/Delegated Admin]
+    
+    master -->|AssumeRole| target_a[Account A: Prod]
+    master -->|AssumeRole| target_b[Account B: Dev]
+    master -->|AssumeRole| target_c[Account C: Test]
+    
+    target_a --> stack_a[Baseline CloudFormation Stack]
+    target_b --> stack_b[Baseline CloudFormation Stack]
+    target_c --> stack_c[Baseline CloudFormation Stack]

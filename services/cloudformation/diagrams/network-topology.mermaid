@@ -1,0 +1,14 @@
+graph TD
+    subgraph "Parent Stack"
+        parent[Master Template]
+    end
+    
+    subgraph "Nested Stacks (S3 Bucket Hosted)"
+        parent -->|AWS::CloudFormation::Stack| vpc_stack[Network Stack]
+        parent -->|AWS::CloudFormation::Stack| db_stack[Database Stack]
+        parent -->|AWS::CloudFormation::Stack| app_stack[Application Stack]
+    end
+    
+    vpc_stack -->|Output: VpcId| db_stack
+    vpc_stack -->|Output: SubnetIds| app_stack
+    db_stack -->|Output: Endpoint| app_stack

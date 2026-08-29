@@ -1,0 +1,17 @@
+sequenceDiagram
+    participant Dev as Developer
+    participant Git as Source Repo
+    participant CP as CodePipeline
+    participant CB as CodeBuild
+    participant CD as CodeDeploy
+    
+    Dev->>Git: Push code commit
+    Git->>CP: Trigger (EventBridge/Webhook)
+    CP->>CP: Stage 1: Source
+    CP->>CB: Stage 2: Trigger Build
+    CB->>CB: Compile & Run Tests
+    CB->>CP: Output Artifacts (ZIP)
+    CP->>CD: Stage 3: Trigger Deploy
+    CD->>CD: Deploy to EC2/ECS/Lambda
+    CD->>CP: Deployment Status
+    CP->>Dev: Notifications (SNS/Chatbot)

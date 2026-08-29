@@ -1,0 +1,7 @@
+graph TD;
+    App[Application] -->|Write/Read| Primary[Primary DB Instance]
+    Primary -.->|Sync Replication| Standby[Standby DB Instance]
+    Primary -.->|Async Replication| RR1[Read Replica 1]
+    Primary -.->|Async Replication| RR2[Read Replica 2]
+    App -->|Read| RR1
+    App -->|Read| RR2

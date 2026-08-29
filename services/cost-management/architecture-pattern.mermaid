@@ -1,0 +1,23 @@
+```mermaid
+graph TD
+    subgraph Organization Management Account
+        Billing[Consolidated Billing]
+        CUR[Cost & Usage Report]
+        Budgets[AWS Budgets]
+    end
+    
+    subgraph Member Accounts
+        Acc1[Prod Account - EC2/RDS]
+        Acc2[Dev Account - EKS/Lambda]
+    end
+    
+    Acc1 -->|Usage Data| Billing
+    Acc2 -->|Usage Data| Billing
+    
+    Billing -->|Generates Parquet| S3Bucket[(Central S3 Bucket)]
+    S3Bucket -->|Analyzed By| Athena[Amazon Athena]
+    Athena -->|Visualized By| QuickSight[Amazon QuickSight Dashboards]
+    
+    Budgets -->|Exceeds Threshold| SNS[SNS Alert]
+    SNS --> Slack[FinOps Slack Channel]
+```

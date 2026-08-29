@@ -1,0 +1,14 @@
+graph LR
+    subgraph "VPC (Private Subnet)"
+        ec2[EC2 Instance]
+        vpce_sm[Interface Endpoint: Secrets Manager]
+        vpce_kms[Interface Endpoint: KMS]
+    end
+    
+    ec2 --> vpce_sm
+    ec2 --> vpce_kms
+    
+    vpce_sm --> sm_service[AWS Secrets Manager Service]
+    vpce_kms --> kms_service[AWS KMS Service]
+    
+    note[Traffic does not traverse public internet] -.-> vpce_sm

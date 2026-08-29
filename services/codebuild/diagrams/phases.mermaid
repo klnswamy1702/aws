@@ -1,0 +1,7 @@
+flowchart TD
+    A[Source Code] --> B(CodeBuild Project)
+    B --> C{buildspec.yml}
+    C -->|install| D[Install Dependencies]
+    C -->|pre_build| E[Login to ECR]
+    C -->|build| F[Build Docker Image]
+    C -->|post_build| G[Push to ECR & Output Artifact]

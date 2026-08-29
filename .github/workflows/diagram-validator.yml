@@ -1,0 +1,38 @@
+name: Validate Mermaid Diagrams
+on:
+  push:
+    paths:
+      - '**/*.mermaid'
+      - '**/*.mmd'
+  pull_request:
+    paths:
+      - '**/*.mermaid'
+      - '**/*.mmd'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Find and validate Mermaid files
+        run: |
+          EXIT_CODE=0
+          for file in $(find . -name "*.mermaid" -o -name "*.mmd"); do
+            echo "Validating: $file"
+            if mmdc -i "$file" -o /dev/null 2>&1; then
+              echo "  ✅ Valid"
+            else
+              echo "  ❌ Invalid syntax in $file"
+              EXIT_CODE=1
+            fi
+          done
+          exit $EXIT_CODE

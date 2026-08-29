@@ -1,0 +1,21 @@
+```mermaid
+graph LR
+    subgraph AWS Cloud
+        subgraph Master Account
+            SP[Savings Plan Commitment]
+        end
+        
+        subgraph Dev Account
+            EC2_Dev[EC2 T3 Instances]
+        end
+        
+        subgraph Prod Account
+            Fargate_Prod[ECS Fargate Tasks]
+            Lambda_Prod[Lambda Functions]
+        end
+        
+        SP -->|Discount Applied Automatically| EC2_Dev
+        SP -->|Discount Applied Automatically| Fargate_Prod
+        SP -->|Discount Applied Automatically| Lambda_Prod
+    end
+```

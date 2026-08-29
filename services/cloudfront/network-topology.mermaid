@@ -1,0 +1,24 @@
+```mermaid
+graph LR
+    subgraph Global [AWS Global Infrastructure]
+        Edge1[Edge Location: NY]
+        Edge2[Edge Location: Tokyo]
+        Edge3[Edge Location: London]
+        
+        REC[Regional Edge Cache]
+    end
+    
+    subgraph AWS_Region [AWS Region us-east-1]
+        Origin[S3 Origin]
+    end
+    
+    User1((User NA)) --> Edge1
+    User2((User Asia)) --> Edge2
+    User3((User EU)) --> Edge3
+    
+    Edge1 --> REC
+    Edge2 --> REC
+    Edge3 --> REC
+    
+    REC -->|OAC Authenticated| Origin
+```

@@ -1,0 +1,19 @@
+```mermaid
+sequenceDiagram
+    participant User
+    participant App
+    participant EFS Standard
+    participant EFS IA (Infrequent Access)
+    
+    User->>App: Upload File
+    App->>EFS Standard: Write Data
+    
+    Note over EFS Standard, EFS IA: 30 days pass with no access
+    
+    EFS Standard->>EFS IA: Lifecycle Policy automatically moves file
+    
+    Note over EFS Standard, EFS IA: File remains in same namespace
+    
+    User->>App: Request File
+    App->>EFS IA: Transparently read from IA tier
+```

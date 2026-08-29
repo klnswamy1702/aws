@@ -1,0 +1,14 @@
+```mermaid
+sequenceDiagram
+    participant Dev
+    participant CostExplorer as Cost Anomaly Detection
+    participant SNS
+    participant Admin
+    
+    Dev->>AWS: Launches 10 x p4d.24xlarge (GPU Instances)
+    AWS-->>AWS: Cost incurs rapidly
+    CostExplorer->>CostExplorer: ML Model detects spike vs baseline
+    CostExplorer->>SNS: Publish Anomaly Alert
+    SNS->>Admin: Email / PagerDuty Alert
+    Admin->>AWS: Stops instances & adjusts IAM limits
+```

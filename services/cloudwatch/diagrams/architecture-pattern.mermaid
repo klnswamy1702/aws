@@ -1,0 +1,9 @@
+graph TD
+    source_accounts[10 Source Accounts] -->|Cross-Account Telemetry| sink[Monitoring Account Sink]
+    sink --> dashboard[Centralized CloudWatch Dashboard]
+    sink --> insights[Logs Insights Analyzer]
+    sink --> servicelens[ServiceLens Trace Correlation]
+    
+    dashboard --> sre[SRE Team]
+    insights --> sre
+    servicelens --> sre

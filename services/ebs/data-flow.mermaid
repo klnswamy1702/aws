@@ -1,0 +1,15 @@
+```mermaid
+sequenceDiagram
+    participant App
+    participant OS (File System)
+    participant EBS Volume
+    participant S3 (Snapshots)
+    
+    App->>OS (File System): Write File
+    OS (File System)->>EBS Volume: Block Level Write
+    
+    Note over EBS Volume,S3: Nightly DLM Policy triggers
+    EBS Volume->>S3: Identify changed blocks
+    EBS Volume->>S3: Copy changed blocks (Incremental)
+    S3-->>EBS Volume: Snapshot ID returned
+```

@@ -1,0 +1,5 @@
+flowchart TD
+    User((User)) --> CF[CloudFront Edge Location]
+    CF -->|Cache Miss| WAF{AWS WAF}
+    WAF -->|Allowed| O[Origin S3/ALB]
+    CF -.->|Cache Hit| User

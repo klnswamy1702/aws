@@ -1,0 +1,12 @@
+sequenceDiagram
+    participant Pipeline as CI/CD Pipeline
+    participant CFN as AWS CloudFormation
+    participant Custom as Custom Resource (Lambda)
+    participant External as External SaaS (e.g., Datadog)
+    
+    Pipeline->>CFN: CreateStack
+    CFN->>Custom: Invoke Lambda (RequestType: Create)
+    Custom->>External: API Call (Create Monitor)
+    External-->>Custom: Success (Monitor ID)
+    Custom->>CFN: HTTP PUT (Status: SUCCESS, PhysicalResourceId)
+    CFN-->>Pipeline: Stack CREATE_COMPLETE

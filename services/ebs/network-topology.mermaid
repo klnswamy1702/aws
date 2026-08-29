@@ -1,0 +1,17 @@
+```mermaid
+graph LR
+    subgraph AZ1 [Availability Zone 1]
+        EC2_1[EC2 DB Node 1]
+        EC2_2[EC2 DB Node 2]
+        io2[EBS io2 Volume\nMulti-Attach Enabled]
+        
+        EC2_1 <--> io2
+        EC2_2 <--> io2
+    end
+    
+    subgraph S3_Region [Amazon S3 - Regional]
+        Snapshots[EBS Snapshots]
+    end
+    
+    io2 --> Snapshots
+```

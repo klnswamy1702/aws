@@ -1,0 +1,14 @@
+graph LR
+    igw[Internet Gateway] --> rtp[Public Route Table]
+    
+    subgraph "VPC (10.0.0.0/16)"
+        rtp --> subnet_pub[Public Subnet: 10.0.1.0/24]
+        subnet_pub --> nat[NAT Gateway]
+        subnet_pub --> bastion[Bastion Host]
+        
+        nat --> rtpri[Private Route Table]
+        rtpri --> subnet_pri[Private Subnet: 10.0.2.0/24]
+        subnet_pri --> ec2[EC2 Private Instances]
+        
+        bastion -.->|SSH/RDP| ec2
+    end

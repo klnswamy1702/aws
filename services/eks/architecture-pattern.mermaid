@@ -1,0 +1,19 @@
+```mermaid
+architecture-beta
+    group aws(cloud)[AWS Cloud]
+    
+    group vpc(vpc)[Amazon VPC] in aws
+    
+    group eks(group)[EKS Cluster] in vpc
+    
+    service cp(server)[EKS Control Plane] in eks
+    service dpsm(server)[Managed Nodes] in eks
+    service dpsf(server)[Fargate Nodes] in eks
+    
+    service alb(lb)[ALB / NLB] in vpc
+    
+    cp:R --> L:dpsm
+    cp:R --> L:dpsf
+    alb:B --> T:dpsm
+    alb:B --> T:dpsf
+```

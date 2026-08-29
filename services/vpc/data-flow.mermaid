@@ -1,0 +1,15 @@
+```mermaid
+sequenceDiagram
+    participant User
+    participant IGW
+    participant NAT
+    participant EC2_Private as EC2 (Private Subnet)
+    participant S3
+    
+    EC2_Private->>NAT: Request internet access (0.0.0.0/0)
+    NAT->>IGW: Translate private IP to EIP
+    IGW->>Internet: Forward Request
+    
+    EC2_Private->>S3: Upload file
+    Note over EC2_Private,S3: Uses VPC Gateway Endpoint (Stays within AWS)
+```

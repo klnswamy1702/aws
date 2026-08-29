@@ -1,0 +1,14 @@
+```mermaid
+graph TD
+    VPC[Amazon VPC]
+    Sub1[Subnet 1]
+    Sub2[Subnet 2]
+    MT1[Mount Target 1]
+    MT2[Mount Target 2]
+    EFS[(EFS File System)]
+    
+    Sub1 --> MT1
+    Sub2 --> MT2
+    MT1 --> EFS
+    MT2 --> EFS
+```
